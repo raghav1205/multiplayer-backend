@@ -16,7 +16,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"]
   }
 });
-const port = 8080;
+const port = 3000;
 
 app.use(cors());
 app.use(express.json());
