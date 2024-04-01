@@ -10,15 +10,43 @@ import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "https://multiplayer-frontend.vercel.app",
-    methods: ["GET", "POST"]
-  }
-});
+
+
 const port = 5000;
 
-app.use(cors());
+const allowedOrigins: string[] = [
+  'https://multiplayer-frontend.vercel.app',
+  'http://localhost:3000', 
+];
+
+// Express CORS middleware configuration for multiple origins
+
+
+const io = new Server(server, {
+  cors: {
+    origin: function (origin, callback) {
+      if (origin)
+        if (allowedOrigins.includes(origin) || !origin) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'), false);
+        }
+    },
+    methods: ['GET', 'POST']
+  }
+});
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use('/user', user);
 app.use('/room', room);
@@ -50,7 +78,7 @@ io.on('connection', (socket) => {
     else {
       if (!roomPlayers[room].players[userId]) {
         // If the user has not been assigned a role, assign them a role based on the number of players in the room
-     
+
         roomPlayers[room].players[userId] = 2;
         console.log("Player 2 joined")
       }
