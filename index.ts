@@ -85,7 +85,6 @@ io.on('connection', (socket) => {
     }
     console.log(roomPlayers);
 
-    // Emit the role to the client
     console.log('here', userId, roomPlayers[room].players[userId] === 1 ? 'X' : 'O')
     io.to(room).emit('roleAssigned', {role:roomPlayers[room].players[userId] === 1 ? 'X' : 'O', userId});
   });
@@ -99,24 +98,10 @@ io.on('connection', (socket) => {
     saveMessage(room, text, userId);
   });
 
-  // socket.on('player', (room) => { 
-  //   console.log('Player joined');
-  //   if (roomPlayers[room].count  % 2 === 0) {
-  //     io.to(room).emit('player', 'X');
-  //     console.log("emitted  X")
-  //   }
-  //   else {
-  //     io.to(room).emit('player', 'O');
-  //     console.log("emitted O")
-  //   }
-  // });
 
 
   socket.on('move', ({ room, board, player }) => {
-    // console.log('Move made');
-    // console.log("Room: ", room);
-    // console.log("Board: ", board);
-    // console.log("Player: ", player);
+  
     io.to(room).emit('move', { board, player });
   });
 
