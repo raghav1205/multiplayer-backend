@@ -48,6 +48,11 @@ const corsOptions: cors.CorsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from server!' });
+});
+
 app.use('/user', user);
 app.use('/room', room);
 
@@ -120,10 +125,6 @@ const saveMessage = async (roomId: string, text: string, userId: string) => {
 
 };
 
-
-app.get('/', (req, res) => {
-  res.json({ message: 'Hello from server!' });
-});
 
 
 mongoose.connect(process.env.MONGO_URI as string).then(() => {
