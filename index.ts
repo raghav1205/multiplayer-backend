@@ -12,7 +12,7 @@ const app = express();
 const server = http.createServer(app);
 
 
-const port = 8080;
+const port = 5000;
 
 const allowedOrigins: string[] = [
   'https://multiplayer-frontend.vercel.app',
