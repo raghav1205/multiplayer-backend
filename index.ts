@@ -91,6 +91,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('message', ({ room, text, userId }) => {
+    console.log('Message received');
+    console.log('Room: ', room);
+    console.log('Text: ', text);
+    console.log('User: ', userId);
     io.to(room).emit('message', { text, userId });
     saveMessage(room, text, userId);
   });
