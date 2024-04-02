@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      name: Checkout
+    - name: Checkout
       uses: actions/checkout@v2
 
-      name: SSH and deploy
+    - name: SSH and deploy
       env: 
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
